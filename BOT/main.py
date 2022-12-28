@@ -10,6 +10,13 @@ from weather import getCurrentWeather
 BOT_TOKEN = config("BOT_TOKEN")
 bot= telebot.TeleBot(BOT_TOKEN)
 
+#main commands and bot creation
+
+weather = ["weather","temp","temprature"]
+greetings = ["hello","hi","hey"]
+whoAreYou = ["who" , "what" ]
+botName = "WAGNIMN"
+
 bot_data={
     "name" : ["WAGNIMN","Wagnimn","wagnimn"]
     
@@ -57,8 +64,7 @@ def handleNewUserData(message):
     data["users"] = users
     with open("data.json","w") as editedFile:
         json.dump(data,editedFile,indent=3)
-    editedFile.close()    
-
+    editedFile.close()
 def handleOffensiveMessage(message):
     id = str(message.from_user.id)
     name = message.from_user.first_name
@@ -95,39 +101,26 @@ def handleOffensiveMessage(message):
     editedFile.close()
 
     return bot.delete_message(message.chat.id,message.message_id)
-
-
-
-
-       
+    
 @bot.message_handler(commands=["start"])
 def startBot(message):
     bot.send_message(message.chat.id,text_messages["welcome"])
 
-#main commands and bot creation
-
-weather = ["weather","temp","temprature"]
-greetings = ["hello","hi","hey"]
-whoAreYou = ["who" , "what" ]
-botName = "WAGNIMN"
-
 @bot.message_handler(commands=["commands"])
 def answer(message):
-    bot.send_message(message.chat.id,"/start /help")
-
+    bot.send_message(message.chat.id,["/start /help and you can say weather,temp,temprature to get the weather of agadir city also you can say hello,hi,hey,who,what,wagnimn to talk whit the bot and for now im trying to add translation by typing translate,trans,ترجم,ترجملي and more features in the future"])
 
 @bot.message_handler(commands=["help"])
 def answer(message):
-    bot.send_message(message.chat.id,"talk to the admin")
+    bot.send_message(message.chat.id,["talk to the admin"])
 
 @bot.message_handler(commands=["siham"])
 def answer(message):
-    bot.send_message(message.chat.id,"I LOVE YOU")
+    bot.send_message(message.chat.id,["I LOVE YOU"])
 
 #answering every message not just commands 
 def isMSg(message):
     return True
-
 
 @bot.message_handler(func=isMSg)
 def reply(message):
@@ -140,38 +133,6 @@ def reply(message):
     if words[0].lower() in greetings :
         return bot.reply_to(message,"hey how is going!")
 
-
-
-#* saying Welcome to joined members
-#* saying goodbye to left members
-@bot.chat_member_handler()
-def handleUserUpdates(message:types.ChatMemberUpdated):
-    newResponse = message.new_chat_member
-    if newResponse.status == "member":
-        handleNewUserData(message=message)
-        bot.send_message(message.chat.id,text_messages["welcomeNewMember"].format(name=newResponse.user.first_name))
-    if newResponse.status == "left":
-        bot.send_message(message.chat.id,text_messages["saying goodbye"].format(name=newResponse.user.first_name))
-        
-
-
-#* leave anychat thats not mine
-@bot.my_chat_member_handler()
-def leave(message:types.ChatMemberUpdated):
-    update = message.new_chat_member
-    if update.status == "member":
-        bot.send_message(message.chat.id,text_messages["leave"])
-        bot.leave_chat(message.chat.id)
-
-
-#* listening to group messages
-#* respond to bot name
-@bot.message_handler(func=lambda m:True)
-def reply(message):
-    words = message.text.split()
-    if words[0] in bot_data["name"]:
-        bot.reply_to(message,text_messages["call"])
-    
 #* adding googletrans api
 #* translating word to arabic
 #* translating sentence to arabic
@@ -184,8 +145,32 @@ def reply(message):
         if word in text_list["offensive"]:
             handleOffensiveMessage(message=message)
 
+#* saying Welcome to joined members
+#* saying goodbye to left members
+@bot.chat_member_handler()
+def handleUserUpdates(message:types.ChatMemberUpdated):
+    newResponse = message.new_chat_member
+    if newResponse.status == "member":
+        handleNewUserData(message=message)
+        bot.send_message(message.chat.id,text_messages["welcomeNewMember"].format(name=newResponse.user.first_name))
+    if newResponse.status == "left":
+        bot.send_message(message.chat.id,text_messages["saying goodbye"].format(name=newResponse.user.first_name))
 
+#* leave anychat thats not mine
+@bot.my_chat_member_handler()
+def leave(message:types.ChatMemberUpdated):
+    update = message.new_chat_member
+    if update.status == "member":
+        bot.send_message(message.chat.id,text_messages["leave"])
+        bot.leave_chat(message.chat.id)
 
+#* listening to group messages
+#* respond to bot name
+@bot.message_handler(func=lambda m:True)
+def reply(message):
+    words = message.text.split()
+    if words[0] in bot_data["name"]:
+        bot.reply_to(message,text_messages["call"])
 
 #* : checking if any word in message is offensive print("offensive")
 #* : creating a data json file reading/writing 
