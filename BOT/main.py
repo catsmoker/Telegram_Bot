@@ -102,7 +102,8 @@ def answer(message):
 
 @bot.message_handler(commands=["help"])
 def answer(message):
-    bot.send_message(message.chat.id,["talk to the admin"]) 
+    bot.send_message(message.chat.id,["talk to the admin"])
+
 def isMSg(message):
     return True
 
