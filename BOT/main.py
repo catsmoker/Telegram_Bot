@@ -37,7 +37,7 @@ text_list={
 }
 
 commands = {
-    "translate":["translate","trans","ترجم","ترجملي"]
+    "translate":["translate"]
 }
 def handleNewUserData(message):
     id = str(message.new_chat_member.user.id)
