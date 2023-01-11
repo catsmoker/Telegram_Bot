@@ -10,12 +10,10 @@ from weather import getCurrentWeather
 BOT_TOKEN = config("BOT_TOKEN")
 bot= telebot.TeleBot(BOT_TOKEN)
 
-#main commands and bot creation
-
 weather = ["weather","temp","temprature"]
 greetings = ["hello","hi","hey"]
 whoAreYou = ["who","what"]
-botName = "WAGNIMN"
+botName = ["WAGNIMN"]
 
 bot_data={
     "name" : ["WAGNIMN","Wagnimn","wagnimn"]
@@ -39,6 +37,7 @@ text_list={
 commands = {
     "translate":["translate"]
 }
+
 def handleNewUserData(message):
     id = str(message.new_chat_member.user.id)
     name = message.new_chat_member.user.first_name
@@ -64,11 +63,9 @@ def handleOffensiveMessage(message):
     id = str(message.from_user.id)
     name = message.from_user.first_name
     username =  message.from_user.username
-    
     with open("data.json","r") as jsonFile:
         data = json.load(jsonFile)
     jsonFile.close()
-    
     users = data["users"]
     if id not in users:
         print("new user detected !")
@@ -76,12 +73,10 @@ def handleOffensiveMessage(message):
         users[id]["username"] = username
         users[id]["name"] = name
         print("new user data saved !")
-
     for index in users:
         if index == id :
             print("guilty user founded !")
             users[id]["safeCounter"] -= 1
-
     safeCounterFromJson = users[id]["safeCounter"]
     if safeCounterFromJson == 0:
         bot.kick_chat_member(message.chat.id,id)
@@ -89,12 +84,10 @@ def handleOffensiveMessage(message):
         bot.send_message(message.chat.id,text_messages["kicked"].format(name=name , username = username))
     else:
         bot.send_message(message.chat.id,text_messages["warn"].format(name=name , safeCounter = safeCounterFromJson))
-
     data["users"] = users
     with open("data.json","w") as editedFile:
         json.dump(data,editedFile,indent=3)
     editedFile.close()
-
     return bot.delete_message(message.chat.id,message.message_id)
     
 @bot.message_handler(commands=["start"])
@@ -107,9 +100,7 @@ def answer(message):
 
 @bot.message_handler(commands=["help"])
 def answer(message):
-    bot.send_message(message.chat.id,["talk to the admin"])
-
-#answering every message not just commands 
+    bot.send_message(message.chat.id,["talk to the admin"]) 
 def isMSg(message):
     return True
 
@@ -123,21 +114,14 @@ def reply(message):
         return bot.reply_to(message,f"i am wagnimn bot")
     if words[0].lower() in greetings :
         return bot.reply_to(message,"hey how is going!")
-
-#* adding googletrans api
-#* translating word to arabic
-#* translating sentence to arabic
     if words[0] in commands["translate"]:
         translator = Translator()
         translation = translator.translate(" ".join(words[1:]),dest="ar")
         bot.reply_to(message,translation.text)
-    
     for word in words:
         if word in text_list["offensive"]:
             handleOffensiveMessage(message=message)
 
-#* saying Welcome to joined members
-#* saying goodbye to left members
 @bot.chat_member_handler()
 def handleUserUpdates(message:types.ChatMemberUpdated):
     newResponse = message.new_chat_member
@@ -147,7 +131,6 @@ def handleUserUpdates(message:types.ChatMemberUpdated):
     if newResponse.status == "left":
         bot.send_message(message.chat.id,text_messages["saying goodbye"].format(name=newResponse.user.first_name))
 
-#* leave anychat thats not mine
 @bot.my_chat_member_handler()
 def leave(message:types.ChatMemberUpdated):
     update = message.new_chat_member
@@ -155,18 +138,10 @@ def leave(message:types.ChatMemberUpdated):
         bot.send_message(message.chat.id,text_messages["leave"])
         bot.leave_chat(message.chat.id)
 
-#* listening to group messages
-#* respond to bot name
 @bot.message_handler(func=lambda m:True)
 def reply(message):
     words = message.text.split()
     if words[0] in bot_data["name"]:
         bot.reply_to(message,text_messages["call"])
-
-#* : checking if any word in message is offensive print("offensive")
-#* : creating a data json file reading/writing 
-#* : saving users info from message (id,name,username)
-#* : adding safeCounter data to each user safeCounter = TRIES
-#* : kick chat member that break the rules
 
 bot.infinity_polling(allowed_updates=util.update_types)
