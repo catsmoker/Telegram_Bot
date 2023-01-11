@@ -14,6 +14,7 @@ bot= telebot.TeleBot(BOT_TOKEN)
 
 bot_data={
     "name" : ["wagnimn"]  
+}
 
 text_messages = {
     "welcome" : "welcome to WAGNIMN Bot",
