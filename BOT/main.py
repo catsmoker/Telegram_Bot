@@ -114,10 +114,6 @@ def answer(message):
 def answer(message):
     bot.send_message(message.chat.id,["talk to the admin"])
 
-@bot.message_handler(commands=["siham"])
-def answer(message):
-    bot.send_message(message.chat.id,["I LOVE YOU"])
-
 #answering every message not just commands 
 def isMSg(message):
     return True
