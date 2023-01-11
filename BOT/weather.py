@@ -16,8 +16,6 @@ class City:
 
 agadir = City("agadir ,IQ","-9.598107","30.427755")
 
-
-
 limit = 5
 URL = BASE_URL + "lat=" + agadir.lat + "&lon=" + agadir.lon +"&lang=ar"+"&units=metric"+ "&appid=" + WEATHER_API_KEY
 
