@@ -1,10 +1,10 @@
 import json
 import telebot
-from telebot import types,util
+from telebot import apihelper
+from telebot import types
+from telebot import util as _util
 from decouple import config
 from translate import Translator
-import telebot
-from decouple import config
 from weather import getCurrentWeather
 
 BOT_TOKEN = config("BOT_TOKEN")
@@ -20,14 +20,14 @@ bot_data={
 }
 
 text_messages = {
-    "welcome": "welcome to WAGNIMN Bot",
+    "welcome" : "welcome to WAGNIMN Bot",
     "welcome_new_member" : "Welcome {name} to our group",
-    "saying_goodbye": "User {name} has left the group",
-    "leave":"You've been added to a different group, Goodbye",
+    "saying_goodbye" : "User {name} has left the group",
+    "leave" : "You've been added to a different group, Goodbye",
     "call" : "How can I help you?",
-    "warn": u"{name} has used a forbidden word ****"
+    "warn" : u"{name} has used a forbidden word ****"
             u"You have {safeCounter} more chance(s) left before you get kicked",
-    "kicked": u"User {name} (username: {username}) has been kicked for breaking group rules"
+    "kicked" : u"User {name} (username: {username}) has been kicked for breaking group rules"
 }
 
 text_list={
@@ -42,11 +42,9 @@ def handleNewUserData(message):
     id = str(message.new_chat_member.user.id)
     name = message.new_chat_member.user.first_name
     username =  message.new_chat_member.user.username
-
     with open("data.json","r") as jsonFile:
         data = json.load(jsonFile)
     jsonFile.close()
-    
     users = data["users"]
     if id not in users:
         print("new user detected !")
@@ -54,11 +52,11 @@ def handleNewUserData(message):
         users[id]["username"] = username
         users[id]["name"] = name
         print("new user data saved !")
-
     data["users"] = users
     with open("data.json","w") as editedFile:
         json.dump(data,editedFile,indent=3)
     editedFile.close()
+
 def handleOffensiveMessage(message):
     id = str(message.from_user.id)
     name = message.from_user.first_name
@@ -79,9 +77,13 @@ def handleOffensiveMessage(message):
             users[id]["safeCounter"] -= 1
     safeCounterFromJson = users[id]["safeCounter"]
     if safeCounterFromJson == 0:
-        bot.kick_chat_member(message.chat.id,id)
-        users.pop(id)
-        bot.send_message(message.chat.id,text_messages["kicked"].format(name=name , username = username))
+        try:
+            bot.kickChatMember(message.chat.id, id)
+            users.pop(id)
+            bot.send_message(message.chat.id,text_messages["kicked"].format(name=name , username = username))
+        except telebot.apihelper.ApiException as e:
+            if e.result.status_code == 403:
+                bot.send_message(message.chat.id, "I am not an admin and cannot kick this user")
     else:
         bot.send_message(message.chat.id,text_messages["warn"].format(name=name , safeCounter = safeCounterFromJson))
     data["users"] = users
@@ -89,7 +91,7 @@ def handleOffensiveMessage(message):
         json.dump(data,editedFile,indent=3)
     editedFile.close()
     return bot.delete_message(message.chat.id,message.message_id)
-    
+
 @bot.message_handler(commands=["start"])
 def startBot(message):
     bot.send_message(message.chat.id,text_messages["welcome"])
@@ -144,4 +146,4 @@ def reply(message):
     if words[0] in bot_data["name"]:
         bot.reply_to(message,text_messages["call"])
 
-bot.infinity_polling(allowed_updates=util.update_types)
+bot.infinity_polling(allowed_updates=_util.update_types)
