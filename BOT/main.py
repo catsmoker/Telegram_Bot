@@ -2,7 +2,7 @@ import json
 import telebot
 from telebot import types,util
 from decouple import config
-from googletrans import Translator
+from translate import Translator
 import telebot
 from decouple import config
 from weather import getCurrentWeather
