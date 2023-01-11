@@ -13,7 +13,7 @@ BOT_TOKEN = config("BOT_TOKEN")
 bot= telebot.TeleBot(BOT_TOKEN)
 
 bot_data={
-    "name" : ["wagnimn"]  
+    "name" : ["wagnimn"]
 }
 
 text_messages = {
@@ -107,7 +107,6 @@ def handleUserUpdates(message:types.ChatMemberUpdated):
         bot.send_message(message.chat.id,text_messages["welcomeNewMember"].format(name=newResponse.user.first_name))
     if newResponse.status == "left":
         bot.send_message(message.chat.id,text_messages["saying goodbye"].format(name=newResponse.user.first_name))
-        
 
 
 #* leave anychat thats not mine
@@ -138,7 +137,6 @@ def reply(message):
     for word in words:
         if word in text_list["offensive"]:
             handleOffensiveMessage(message=message)
-        
 
 #* : checking if any word in message is offensive print("offensive")
 #* : creating a data json file reading/writing 
