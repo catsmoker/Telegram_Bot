@@ -14,27 +14,22 @@ bot= telebot.TeleBot(BOT_TOKEN)
 
 weather = ["weather","temp","temprature"]
 greetings = ["hello","hi","hey"]
-whoAreYou = ["who" , "what" ]
+whoAreYou = ["who","what"]
 botName = "WAGNIMN"
 
 bot_data={
     "name" : ["WAGNIMN","Wagnimn","wagnimn"]
-    
 }
-text_messages={
-    "welcome": "welcome to wagnimn بوت مجموعة ☺",
-    "welcomeNewMember" : 
-                u"اهلا بك {name} في مجموعتنا الخاصة 🙋‍♂️",
-    "saying goodbye":
-                u"العضو {name} غادر المجموعة 🥺",
 
-    "leave":"لقد تم اضافتي الى مجموعة غير المجموعة التي صممت لها , وداعاً 🧐",
-    "call" : "كيف يمكنني المساعدة ؟ 😀",
-    "warn": u"❌ لقد استعمل {name} احد الكلمات المحظورة ❌\n"
-            u" 🔴 تبقى لديك {safeCounter} فرص اذا تم تجاوز العدد سيتم طردك 🔴",
-    "kicked": u"👮‍♂️⚠ لقد تم طرد العضو {name} صاحب المعرف {username} بسبب مخالفته لاحد قواعد المجموعة 👮‍♂️⚠"
-            
-
+text_messages = {
+    "welcome": "welcome to WAGNIMN Bot",
+    "welcome_new_member" : "Welcome {name} to our group",
+    "saying_goodbye": "User {name} has left the group",
+    "leave":"You've been added to a different group, Goodbye",
+    "call" : "How can I help you?",
+    "warn": u"{name} has used a forbidden word ****"
+            u"You have {safeCounter} more chance(s) left before you get kicked",
+    "kicked": u"User {name} (username: {username}) has been kicked for breaking group rules"
 }
 
 text_list={
