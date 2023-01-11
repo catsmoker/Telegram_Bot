@@ -16,19 +16,18 @@ bot_data={
     "name" : ["wagnimn"]
 }
 
-text_messages = {
-    "welcome" : "welcome to WAGNIMN Bot",
-    "welcome_new_member" : "Welcome {name} to our group",
-    "saying_goodbye" : "User {name} has left the group",
-    "leave" : "You've been added to a different group, Goodbye",
-    "call" : "How can I help you?",
-    "warn" : u"{name} has used a forbidden word ****"
-            u"You have {safeCounter} more chance(s) left before you get kicked",
-    "kicked" : u"User {name} (username: {username}) has been kicked for breaking group rules"
-}
+text_messages={
+    "welcome": "welcome to wagnimn Telegram group ☺",
+    "welcomeNewMember" : 
+                u"Hey, you{name} in our private group🙋‍♂️",
+    "saying goodbye":
+                u"the member{name} left the group🥺",
 
-text_list={
-    "offensive":["cat","puppy"]
+    "leave":"I have been added to a group other than the group I was designed for, bye🧐",
+    "call" : "how can I help ?😀",
+    "warn": u"❌ I have used {name} One of the forbidden words ❌\n"
+            u" 🔴 you have left {safeCounter} Chances are, if the number is exceeded, you will be expelled 🔴",
+    "kicked": u"👮‍♂️⚠ The member has been kicked out {name} ID owner {username} For violating one of the group rules👮‍♂️⚠"           
 }
 
 commands = {
@@ -133,10 +132,6 @@ def reply(message):
         translator = Translator()
         translation = translator.translate(" ".join(words[1:]),dest="ar")
         bot.reply_to(message,translation.text)
-    
-    for word in words:
-        if word in text_list["offensive"]:
-            handleOffensiveMessage(message=message)
 
 #* : checking if any word in message is offensive print("offensive")
 #* : creating a data json file reading/writing 
