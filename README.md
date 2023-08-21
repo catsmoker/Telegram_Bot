@@ -1,12 +1,8 @@
 ### Hi there 👋
 
-TELEGRAM BOT USING PYTHON
+TELEGRAM GROUP https://t.me/WAGNIMN
 
 
-thanks to ali taher
 
-NOTE: 
 
-add your token in env
 
-change wagnimn to your bot-name
