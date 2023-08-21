@@ -15,18 +15,18 @@ bot= telebot.TeleBot(BOT_TOKEN)
 weather = ["weather","temp","temprature"]
 greetings = ["hello","hi","hey"]
 whoAreYou = ["who","what"]
-botName = "WAGNIMN"
+botName = "my bot name"
 
 bot_data={
-    "name" : ["wagnimn"]
+    "name" : ["my bot name"]
 }
 
 text_messages={
-    "welcome": "welcome to wagnimn Telegram group ☺",
+    "welcome": "welcome to xxxx Telegram group",
     "welcomeNewMember" : 
-                u"Hey, you{name} in our private group🙋‍♂️",
+                u"Hey, you{name} in our private group",
     "saying goodbye":
-                u"the member{name} left the group🥺",
+                u"the member{name} left the group",
 
     "leave":"I have been added to a group other than the group I was designed for, bye🧐",
     "call" : "how can I help ?😀",
