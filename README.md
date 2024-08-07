@@ -4,7 +4,7 @@ NOTE:
 
 add your token in env
 
-change wagnimn to your bot-name
+change to your bot-name
 
 
 
