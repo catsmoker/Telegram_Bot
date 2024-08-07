@@ -1,4 +1,4 @@
-# Telegram Weather Bot
+# Telegram Bot
 
 This is a Telegram bot that provides weather updates and other functionalities like greeting new members, translating text, and managing group members. The bot is built using Python and leverages the OpenWeatherMap API for weather updates.
 
