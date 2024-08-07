@@ -32,7 +32,7 @@ WEATHER=your-openweathermap-api-key
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/catsmoker/TELEGRAM-BOT-FOR-FREE.git
+    git clone https://github.com/catsmoker/Telegram_Bot.git
     cd telegram-weather-bot
     ```
 
